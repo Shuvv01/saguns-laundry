@@ -1641,6 +1641,13 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 .sl-contact-form label:first-of-type {
   margin-top: 0;
 }
+.sl-contact-form label span {
+  color: #756761;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: none;
+}
 .sl-contact-form input,
 .sl-contact-form textarea {
   width: 100%;
