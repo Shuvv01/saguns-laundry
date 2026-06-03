@@ -1330,7 +1330,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 }
 .sl-strip__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
 }
 .sl-branch-card {
@@ -1496,7 +1496,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 }
 .sl-facility-grid {
   display: grid;
-  grid-template-columns: 1.25fr .85fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
   margin-top: 32px;
 }
@@ -1508,8 +1508,12 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   background: #ddd;
 }
 .sl-facility-grid figure:first-child {
+  grid-column: span 2;
   grid-row: span 2;
   min-height: 560px;
+}
+.sl-facility-grid figure:nth-child(4) {
+  grid-column: span 2;
 }
 .sl-facility-grid img {
   width: 100%;

@@ -2,7 +2,7 @@
 // Sagun's Laundry — main.js  (XSS-safe, CSRF-aware)
 // ============================================================
 
-const SAGUNS_WHATSAPP_NUMBER = '9779749863285';
+const SAGUNS_WHATSAPP_NUMBER = '9779851302350';
 
 function buildWhatsAppUrl(message) {
   return `https://wa.me/${SAGUNS_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

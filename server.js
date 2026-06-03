@@ -13,7 +13,7 @@ const app = express();
 const PORT = Number(process.env.PORT || 3001);
 const store = new DataStore(path.join(__dirname, 'data', 'db.json'));
 const logsDir = path.join(__dirname, 'logs');
-const whatsappNumber = '9779749863285';
+const whatsappNumber = '9779851302350';
 const pickupMessage = "Hello Sagun's Laundry, I want to book a pickup. Please confirm pickup and delivery availability within 3 km of my nearest branch.";
 const signupMessage = "Hello Sagun's Laundry, I want to create/verify my account through WhatsApp. Please confirm my signup and pickup availability.";
 
@@ -22,7 +22,6 @@ fs.mkdirSync(logsDir, { recursive: true });
 const homeServices = [
   ['&#x1F455;', 'Regular Wash', 'NPR&nbsp;50', 'per&nbsp;kg', 'Standard machine wash with premium detergent. Perfect for everyday clothing &mdash; shirts, pants, t-shirts, and casuals.', ['Machine Wash', 'Premium Detergent', 'Neatly Folded', '24hr Turnaround']],
   ['&#x2B50;', 'Premium Wash', 'NPR&nbsp;80', 'per&nbsp;kg', 'Advanced wash with fabric conditioner. Ideal for delicate and high-quality garments.', ['Fabric Conditioner', 'Gentle Cycle', 'Delicate Care', 'Color Protection']],
-  ['&#x1F9E5;', 'Dry Cleaning', 'NPR&nbsp;120', 'per&nbsp;item', 'Professional dry cleaning for suits, sarees, formal wear, and fabrics that cannot be machine washed.', ['Suits & Blazers', 'Sarees & Silk', 'Stain Removal', 'Odor Treatment']],
   ['&#x1F525;', 'Ironing', 'NPR&nbsp;30', 'per&nbsp;item', 'Professional steam ironing for crisp, wrinkle-free clothes. For all fabric types.', ['Steam Press', 'All Fabrics', 'Collar Shaping', 'Office Ready']]
 ];
 
@@ -36,20 +35,18 @@ const features = [
 const pricingServices = [
   ['&#x1F455;', 'Regular Wash', 'NPR 50', 'per kg', 'Standard machine wash with quality detergent. Ideal for everyday clothing.', ['Machine Wash', 'Premium Detergent', 'Neatly Folded', '24hr Turnaround', 'Shirts, Pants, T-shirts']],
   ['&#x2B50;', 'Premium Wash', 'NPR 80', 'per kg', 'Advanced wash cycle with fabric conditioner. Ideal for delicate garments.', ['Fabric Conditioner', 'Gentle Cycle', 'Color Protection', 'Formal Shirts, Kurtas']],
-  ['&#x1F9E5;', 'Dry Cleaning', 'NPR 120', 'per item', 'Professional dry cleaning for suits, sarees, formal wear.', ['Suits & Blazers', 'Sarees & Silk', 'Stain Removal', 'Coats & Jackets']],
   ['&#x1F525;', 'Ironing', 'NPR 30', 'per item', 'Professional steam ironing for crisp, wrinkle-free clothes.', ['Steam Press', 'All Fabrics', 'Collar & Cuff Pressing', 'Office Ready']]
 ];
 
 const pricingRows = [
   ['Regular Wash', 'NPR 50 / kg'],
   ['Premium Wash', 'NPR 80 / kg'],
-  ['Dry Cleaning', 'NPR 120 / item'],
   ['Ironing', 'NPR 30 / item']
 ];
 
 const faqs = [
-  ['Is there a minimum order?', 'For wash services, the minimum is 1&nbsp;kg. For dry cleaning and ironing, there is no minimum &mdash; even a single item is welcome.'],
-  ['How long does it take?', 'Most orders are returned within 24&nbsp;hours. Dry cleaning may take 48&nbsp;hours. Express same-day service is available for an additional charge.'],
+  ['Is there a minimum order?', 'For wash services, the minimum is 1&nbsp;kg. For ironing, even a single item is welcome.'],
+  ['How long does it take?', 'Most regular wash and ironing orders are returned within 24&nbsp;hours. Express same-day service is available on request.'],
   ['Is pickup really free?', 'Pickup and delivery are available within 3&nbsp;km of each branch: Imadol, Nakhu and Hattiban. The team confirms availability on WhatsApp before pickup.'],
   ['How do I pay?', 'We accept cash on delivery. Online payment options are coming soon. You can also pay in-store at our Imadol location.'],
   ['Can I track my order?', 'Yes. For launch, orders are confirmed and updated through WhatsApp so you do not need a separate account system or database.'],

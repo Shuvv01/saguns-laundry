@@ -6,7 +6,7 @@
   <meta name="csrf-token" content="<%= csrf %>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Sagun's Laundry | Main Branch Imadol</title>
-  <meta name="description" content="Sagun's Laundry provides wash, dry, fold, dry cleaning and pickup service from the main branch in Imadol, with branches in Nakhu and Hattiban.">
+  <meta name="description" content="Sagun's Laundry provides wash, dry, fold, ironing and pickup service from the main branch in Imadol, with branches in Nakhu and Hattiban.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="nav-cta">
-      <a href="tel:+9779749863285" class="btn btn-ghost btn-sm">Call</a>
+      <a href="tel:+9779851302350" class="btn btn-ghost btn-sm">Call</a>
       <a href="<%= whatsappPickupUrl %>" class="btn btn-primary btn-sm">Book Pickup</a>
     </div>
     <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -42,7 +42,7 @@
   <a href="#branches">Branches</a>
   <a href="pricing.php">Pricing</a>
   <a href="#contact">Contact</a>
-  <a href="tel:+9779749863285">Call</a>
+  <a href="tel:+9779851302350">Call</a>
   <a href="<%= whatsappPickupUrl %>">Book Pickup</a>
 </div>
 
@@ -53,7 +53,7 @@
       <div class="sl-hero__copy">
         <p class="sl-kicker">Main Branch | Imadol, Lalitpur</p>
         <h1>Clean clothes, handled with care by a local laundry team.</h1>
-        <p class="sl-lead">Sagun's Laundry offers daily wearable washing, wash dry fold, blanket wash, dry cleaning and pickup service from its Imadol main branch.</p>
+        <p class="sl-lead">Sagun's Laundry offers daily wearable washing, wash dry fold, blanket wash, ironing and pickup service from its Imadol main branch.</p>
         <div class="sl-hero__actions">
           <a href="<%= whatsappPickupUrl %>" class="btn btn-primary btn-lg">Book Pickup</a>
           <a href="#about" class="btn btn-outline btn-lg">Meet the Founder</a>
@@ -91,8 +91,12 @@
         <strong>Hattiban</strong>
       </a>
       <div class="sl-branch-card">
-        <span>Open Daily</span>
-        <strong>7:00 AM - 8:00 PM</strong>
+        <span>Main Hours</span>
+        <strong>8:15 AM - 8:00 PM</strong>
+      </div>
+      <div class="sl-branch-card">
+        <span>Nakhu Hours</span>
+        <strong>8:00 AM - 7:00 PM</strong>
       </div>
     </div>
   </section>
@@ -109,7 +113,7 @@
           ['Daily Wearable Clothes', 'Regular clothes washed and folded for everyday use.', 'From NPR 50 / kg'],
           ['Wash, Dry & Fold', 'Washed, dried and neatly packed so you can put them straight away.', 'Quick turnaround'],
           ['Blanket Wash', 'Heavy blankets and bedding cleaned with machine support.', 'Seasonal care'],
-          ['Dry Cleaning', 'Formal and delicate garments handled with extra attention.', 'From NPR 120 / item']
+          ['Ironing', 'Steam pressed and neatly finished for crisp daily wear.', 'From NPR 30 / item']
         ].forEach(([title, text, meta]) => { %>
           <article class="sl-service-card">
             <span><%= meta %></span>
@@ -132,11 +136,11 @@
       </div>
       <div class="sl-about__text">
         <p class="sl-kicker">About Us</p>
-        <h2 id="aboutHeading">Started by a hardworking woman, grown through trust.</h2>
-        <p>Sagun's Laundry is led by a dedicated woman entrepreneur who built the business herself with persistence, practical skill and care for customers. Her story is one of women empowerment, daily hard work and the courage to create opportunities from the ground up.</p>
+        <h2 id="aboutHeading">Established in 2078 B.S., grown through trust.</h2>
+        <p>Sagun's Laundry is led by a dedicated woman entrepreneur who built the business herself with persistence, practical skill and care for customers. Established in 2078 B.S., her story is one of women empowerment, daily hard work and the courage to create opportunities from the ground up.</p>
         <p>The Imadol location is the main branch, serving as the heart of the operation. From here, the team manages laundry care with real machines, real people and a simple promise: clothes should return clean, fresh and handled respectfully.</p>
         <div class="sl-about__stats">
-          <div><strong>3</strong><span>Branches</span></div>
+          <div><strong>2078</strong><span>Established B.S.</span></div>
           <div><strong>Main</strong><span>Imadol</span></div>
           <div><strong>Local</strong><span>Owner-led</span></div>
         </div>
@@ -164,6 +168,10 @@
           <img src="assets/facility-workflow.png" alt="Laundry workflow with machines and baskets">
           <figcaption>Daily laundry workflow</figcaption>
         </figure>
+        <figure>
+          <img src="assets/branch-storage-orders.jpg" alt="Packed customer laundry orders arranged in branch storage">
+          <figcaption>Sorted customer orders</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -176,8 +184,10 @@
         <div class="sl-contact-list">
           <p><strong>Main Branch:</strong> Imadol, Lalitpur</p>
           <p><strong>Other Branches:</strong> Nakhu, Hattiban</p>
-          <p><strong>Phone:</strong> <a href="tel:+9779749863285">+977 9749863285</a></p>
-          <p><strong>Hours:</strong> 7:00 AM - 8:00 PM, daily</p>
+          <p><strong>Main Branch Telephone:</strong> <a href="tel:015254350">015254350</a></p>
+          <p><strong>Mobile Contact:</strong> <a href="tel:+9779851302350">+977 9851302350</a></p>
+          <p><strong>Main Branch Hours:</strong> 8:15 AM - 8:00 PM, daily</p>
+          <p><strong>Nakhu Branch Hours:</strong> 8:00 AM - 7:00 PM, daily</p>
         </div>
       </div>
       <form id="contactForm" class="sl-contact-form" novalidate>
@@ -212,7 +222,7 @@
     <div>
       <strong>Booking</strong>
       <a href="<%= whatsappPickupUrl %>">Book Pickup</a>
-      <a href="tel:+9779749863285">Call Sagun's Laundry</a>
+      <a href="tel:+9779851302350">Call Sagun's Laundry</a>
     </div>
   </div>
   <div class="container sl-footer__bottom">
