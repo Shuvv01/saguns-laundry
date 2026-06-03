@@ -1426,6 +1426,79 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   color: #71635f;
   font-size: .9rem;
 }
+.sl-offers {
+  background: #fff;
+  border-top: 1px solid rgba(32,25,23,.08);
+  border-bottom: 1px solid rgba(32,25,23,.08);
+}
+.sl-offers__grid {
+  display: grid;
+  grid-template-columns: 1.15fr repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+.sl-offers__copy {
+  padding-right: 28px;
+  align-self: center;
+}
+.sl-offers__copy h2 {
+  max-width: 560px;
+  color: #201917;
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
+  line-height: 1.08;
+}
+.sl-offers__copy p:not(.sl-kicker) {
+  margin-top: 14px;
+  color: #695a55;
+  font-size: .98rem;
+  line-height: 1.7;
+}
+.sl-offer-card {
+  min-height: 220px;
+  padding: 26px;
+  border: 1px solid rgba(192,57,43,.20);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255,247,240,.94), rgba(255,255,255,.98)),
+    #fff;
+  box-shadow: 0 18px 44px rgba(32,25,23,.08);
+}
+.sl-offer-card--accent {
+  background:
+    linear-gradient(145deg, rgba(192,57,43,.94), rgba(150,38,28,.96)),
+    #c0392b;
+  color: #fff;
+}
+.sl-offer-card span {
+  color: #c0392b;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.sl-offer-card--accent span {
+  color: rgba(255,255,255,.78);
+}
+.sl-offer-card strong {
+  display: block;
+  margin-top: 28px;
+  color: #201917;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.42rem;
+  line-height: 1.15;
+}
+.sl-offer-card--accent strong {
+  color: #fff;
+}
+.sl-offer-card p {
+  margin-top: 12px;
+  color: #756761;
+  font-size: .92rem;
+  line-height: 1.65;
+}
+.sl-offer-card--accent p {
+  color: rgba(255,255,255,.84);
+}
 .sl-about {
   background: #fff;
 }
@@ -1625,8 +1698,12 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 @media (max-width: 980px) {
   .sl-hero__inner,
   .sl-about__grid,
-  .sl-contact__grid {
+  .sl-contact__grid,
+  .sl-offers__grid {
     grid-template-columns: 1fr;
+  }
+  .sl-offers__copy {
+    padding-right: 0;
   }
   .sl-hero__panel {
     max-width: 480px;

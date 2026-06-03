@@ -48,6 +48,7 @@ const faqs = [
   ['Is there a minimum order?', 'For wash services, the minimum is 1&nbsp;kg. For ironing, even a single item is welcome.'],
   ['How long does it take?', 'Most regular wash and ironing orders are returned within 24&nbsp;hours. Express same-day service is available on request.'],
   ['Is pickup really free?', 'Pickup and delivery are available within 3&nbsp;km of each branch: Imadol, Nakhu and Hattiban. The team confirms availability on WhatsApp before pickup.'],
+  ['Do you have current offers?', 'Yes. Orders of 20&nbsp;kg or above can receive a 10% discount, and eligible first visits or coupon bookings can also receive 10% off. Please confirm the offer on WhatsApp before pickup.'],
   ['How do I pay?', 'We accept cash on delivery. Online payment options are coming soon. You can also pay in-store at our Imadol location.'],
   ['Can I track my order?', 'Yes. For launch, orders are confirmed and updated through WhatsApp so you do not need a separate account system or database.'],
   ['What if my clothes are damaged?', 'We handle all garments with utmost care. In the rare event of any issue, please contact us within 24&nbsp;hours of delivery and we will resolve it immediately.']
