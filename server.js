@@ -20,9 +20,9 @@ const signupMessage = "Hello Sagun's Laundry, I want to create/verify my account
 fs.mkdirSync(logsDir, { recursive: true });
 
 const homeServices = [
-  ['&#x1F455;', 'Regular Wash', 'NPR&nbsp;50', 'per&nbsp;kg', 'Standard machine wash with premium detergent. Perfect for everyday clothing &mdash; shirts, pants, t-shirts, and casuals.', ['Machine Wash', 'Premium Detergent', 'Neatly Folded', '24hr Turnaround']],
-  ['&#x2B50;', 'Premium Wash', 'NPR&nbsp;80', 'per&nbsp;kg', 'Advanced wash with fabric conditioner. Ideal for delicate and high-quality garments.', ['Fabric Conditioner', 'Gentle Cycle', 'Delicate Care', 'Color Protection']],
-  ['&#x1F525;', 'Ironing', 'NPR&nbsp;30', 'per&nbsp;item', 'Professional steam ironing for crisp, wrinkle-free clothes. For all fabric types.', ['Steam Press', 'All Fabrics', 'Collar Shaping', 'Office Ready']]
+  ['&#x1F455;', 'Daily Wearable Clothes', 'NPR&nbsp;100', 'per&nbsp;kg', 'Regular everyday clothes washed, dried and folded for students, families and working professionals.', ['Machine Wash', 'Daily Wear', 'Neatly Folded', '24hr Turnaround']],
+  ['&#x1F9FA;', 'Blanket Wash & Dry', 'NPR&nbsp;100', 'per&nbsp;kg', 'Heavy blankets and bedding washed and dried with practical machine support.', ['Blankets', 'Bedding', 'Wash & Dry', 'Seasonal Care']],
+  ['&#x1F9E5;', 'Down Jacket Wash & Dry', 'From NPR&nbsp;150', 'per&nbsp;piece', 'Small, big and feather down jackets cleaned with extra care.', ['Small Jackets', 'Big Jackets', 'Feather Jackets', 'Winter Wear']]
 ];
 
 const features = [
@@ -33,15 +33,21 @@ const features = [
 ];
 
 const pricingServices = [
-  ['&#x1F455;', 'Regular Wash', 'NPR 50', 'per kg', 'Standard machine wash with quality detergent. Ideal for everyday clothing.', ['Machine Wash', 'Premium Detergent', 'Neatly Folded', '24hr Turnaround', 'Shirts, Pants, T-shirts']],
-  ['&#x2B50;', 'Premium Wash', 'NPR 80', 'per kg', 'Advanced wash cycle with fabric conditioner. Ideal for delicate garments.', ['Fabric Conditioner', 'Gentle Cycle', 'Color Protection', 'Formal Shirts, Kurtas']],
-  ['&#x1F525;', 'Ironing', 'NPR 30', 'per item', 'Professional steam ironing for crisp, wrinkle-free clothes.', ['Steam Press', 'All Fabrics', 'Collar & Cuff Pressing', 'Office Ready']]
+  ['&#x1F455;', 'Daily Wearable Clothes', 'NPR 100', 'per kg', 'Everyday clothes washed, dried and folded for regular use.', ['Shirts', 'Pants', 'T-shirts', 'Daily Wear', 'Wash & Dry']],
+  ['&#x1F9FA;', 'Blanket Wash & Dry', 'NPR 100', 'per kg', 'Blankets and bedding washed and dried with machine support.', ['Blankets', 'Bedding', 'Wash & Dry', 'Seasonal Care']],
+  ['&#x1F9CC;', 'Fiber Blanket Wash & Dry', 'NPR 150', 'per kg', 'Fiber blankets cleaned and dried with extra care.', ['Fiber Blankets', 'Wash & Dry', 'Machine Support']],
+  ['&#x1F6CC;', 'Sleeping Bags', 'NPR 500', 'per piece', 'Sleeping bags washed and dried for travel or seasonal use.', ['Sleeping Bags', 'Travel Gear', 'Deep Wash']],
+  ['&#x1F9E5;', 'Down Jacket Wash & Dry', 'From NPR 150', 'per piece', 'Down jackets priced by size and material type.', ['Small - NPR 150', 'Big - NPR 170', 'Feather - NPR 200']]
 ];
 
 const pricingRows = [
-  ['Regular Wash', 'NPR 50 / kg'],
-  ['Premium Wash', 'NPR 80 / kg'],
-  ['Ironing', 'NPR 30 / item']
+  ['Daily Wearable Clothes', 'NPR 100 / kg'],
+  ['Blanket Wash & Dry', 'NPR 100 / kg'],
+  ['Fiber Blanket Wash & Dry', 'NPR 150 / kg'],
+  ['Sleeping Bags', 'NPR 500 / piece'],
+  ['Down Jacket Wash & Dry - Small', 'NPR 150 / piece'],
+  ['Down Jacket Wash & Dry - Big', 'NPR 170 / piece'],
+  ['Down Jacket Wash & Dry - Feather', 'NPR 200 / piece']
 ];
 
 const faqs = [
