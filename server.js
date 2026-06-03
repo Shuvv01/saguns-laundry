@@ -35,7 +35,7 @@ const features = [
 const pricingServices = [
   ['&#x1F455;', 'Daily Wearable Clothes', 'NPR 100', 'per kg', 'Everyday clothes washed, dried and folded for regular use.', ['Shirts', 'Pants', 'T-shirts', 'Daily Wear', 'Wash & Dry']],
   ['&#x1F9FA;', 'Blanket Wash & Dry', 'NPR 100', 'per kg', 'Blankets and bedding washed and dried with machine support.', ['Blankets', 'Bedding', 'Wash & Dry', 'Seasonal Care']],
-  ['&#x1F9CC;', 'Fiber Blanket Wash & Dry', 'NPR 150', 'per kg', 'Fiber blankets cleaned and dried with extra care.', ['Fiber Blankets', 'Wash & Dry', 'Machine Support']],
+  ['&#x1F9FA;', 'Fiber Blanket Wash & Dry', 'NPR 150', 'per kg', 'Fiber blankets cleaned and dried with extra care.', ['Fiber Blankets', 'Wash & Dry', 'Machine Support']],
   ['&#x1F6CC;', 'Sleeping Bags', 'NPR 500', 'per piece', 'Sleeping bags washed and dried for travel or seasonal use.', ['Sleeping Bags', 'Travel Gear', 'Deep Wash']],
   ['&#x1F9E5;', 'Down Jacket Wash & Dry', 'From NPR 150', 'per piece', 'Down jackets priced by size and material type.', ['Small - NPR 150', 'Big - NPR 170', 'Feather - NPR 200']]
 ];
