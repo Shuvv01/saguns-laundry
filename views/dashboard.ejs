@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<%= csrf %>">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title><%= pageTitle %> &mdash; Sagun's Laundry Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Order builder ──────────────────────────────────── */
+    .svc-row {
+      display: grid; grid-template-columns: 1fr auto auto;
+      gap: 16px; align-items: center;
+      padding: 14px 0; border-bottom: 1px solid var(--gray-100);
+    }
+    .svc-row:last-child { border-bottom: none; }
+    .qty-ctrl { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1.5px solid var(--gray-300); background: #fff;
+      cursor: pointer; font-size: 1rem; display: flex;
+      align-items: center; justify-content: center;
+      transition: var(--transition); line-height: 1;
+    }
+    .qty-btn:hover { border-color: var(--red); color: var(--red); }
+    .qty-val { width: 34px; text-align: center; font-weight: 700; font-size: .95rem; }
+    .svc-sub { font-size: .85rem; font-weight: 600; color: var(--gray-700); min-width: 72px; text-align: right; }
+
+    /* ── Order progress ─────────────────────────────────── */
+    .prog-wrap { display: flex; align-items: flex-start; overflow-x: auto; padding: 8px 0 4px; gap: 0; }
+    .prog-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+    .prog-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; color: #fff;
+      background: var(--gray-300); transition: var(--transition);
+    }
+    .prog-dot.done   { background: #27AE60; }
+    .prog-dot.active { background: var(--red); box-shadow: 0 0 0 4px rgba(192,57,43,.18); }
+    .prog-line  { width: 44px; height: 2px; background: var(--gray-300); flex-shrink: 0; margin-top: 15px; transition: background .3s; }
+    .prog-line.done { background: #27AE60; }
+    .prog-label { font-size: .66rem; font-weight: 600; color: var(--gray-400); text-align: center; max-width: 60px; white-space: nowrap; }
+    .prog-label.active { color: var(--red); }
+    .prog-label.done   { color: #27AE60; }
+
+    /* ── Sidebar mobile ──────────────────────────────────── */
+    @media (max-width: 768px) {
+      .dashboard-layout  { grid-template-columns: 1fr; }
+      .sidebar           { position: fixed; left: -270px; top: 0; bottom: 0; z-index: 600; transition: left .3s ease; width: 260px; }
+      .sidebar.open      { left: 0; box-shadow: 4px 0 32px rgba(0,0,0,.3); }
+      .sidebar-overlay   { display: none; }
+      .mob-menu-btn      { display: flex !important; }
+      .dashboard-content { padding: 16px; }
+    }
+    .mob-menu-btn { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 4px 6px; }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 599; }
+    .sidebar-overlay.show { display: block; }
+  </style>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" aria-label="Dashboard navigation">
+    <div class="logo-lockup logo-lockup--sidebar">
+      <img src="assets/saguns-brand-logo-horizontal.png" alt="Sagun's Laundry">
+    </div>
+    <nav class="sidebar-nav" aria-label="Dashboard menu">
+      <div class="sidebar-section-label">Main</div>
+      <a href="?tab=overview" class="sidebar-link <%= activeTab==='overview'?'active':'' %>">
+        <span class="sidebar-icon" aria-hidden="true">&#x1F3E0;</span> Overview
+      </a>
+      <a href="?tab=order"    class="sidebar-link <%= activeTab==='order'?'active':'' %>">
+        <span class="sidebar-icon" aria-hidden="true">&#x2795;</span> New Order
+      </a>
+      <a href="?tab=orders"   class="sidebar-link <%= activeTab==='orders'?'active':'' %>">
+        <span class="sidebar-icon" aria-hidden="true">&#x1F4CB;</span> My Orders
+      </a>
+      <div class="sidebar-section-label">Account</div>
+      <a href="?tab=profile"  class="sidebar-link <%= activeTab==='profile'?'active':'' %>">
+        <span class="sidebar-icon" aria-hidden="true">&#x1F464;</span> Profile
+      </a>
+      <a href="?tab=password" class="sidebar-link <%= activeTab==='password'?'active':'' %>">
+        <span class="sidebar-icon" aria-hidden="true">&#x1F512;</span> Change Password
+      </a>
+      <a href="index.php"     class="sidebar-link">
+        <span class="sidebar-icon" aria-hidden="true">&#x1F3E1;</span> Go to Website
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" aria-hidden="true"><%= userInitial %></div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name"><%= userName %></div>
+          <div class="sidebar-user-role">Customer</div>
+        </div>
+      </div>
+      <a href="#" id="logoutBtn" class="sidebar-link" style="color:rgba(255,100,80,.75);margin-top:8px;">
+        <span class="sidebar-icon" aria-hidden="true">&#x1F6AA;</span> Logout
+      </a>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ── Main ─────────────────────────────────────────────── -->
+  <div class="dashboard-main">
+
+    <!-- Topbar -->
+    <header class="dashboard-topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="mob-menu-btn" id="mobMenuBtn" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          &#x2630;
+        </button>
+        <h1 class="dashboard-title"><%= pageTitle %></h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="?tab=order" class="btn btn-primary btn-sm">&#x2795; New Order</a>
+        <div class="sidebar-avatar" style="cursor:pointer;" title="<%= userName %>"
+             onclick="window.location='?tab=profile'" aria-label="Go to profile">
+          <%= userInitial %>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="dashboard-content">
+
+      <!-- ════════ OVERVIEW ════════ -->
+      <% if (activeTab === 'overview') { %>
+      <p style="color:var(--gray-500);margin-bottom:24px;">
+        Welcome back, <strong><%= firstName %></strong>! Here&rsquo;s your laundry summary.
+      </p>
+      <div class="stats-grid" id="statsGrid">
+        <% ['Total Orders','In Progress','Delivered','Total Spent'].forEach((label) => { %>
+        <div class="stat-card">
+          <div class="stat-card-icon" aria-hidden="true">&#x23F3;</div>
+          <div class="stat-card-value">&#x2014;</div>
+          <div class="stat-card-label"><%= label %></div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="data-table-wrapper mt-3">
+        <div class="data-table-header">
+          <h2 style="font-size:1rem;font-weight:600;">Recent Orders</h2>
+          <a href="?tab=orders" class="btn btn-outline btn-sm">View All &rarr;</a>
+        </div>
+        <div id="recentOrdersWrap" style="padding:32px;text-align:center;color:var(--gray-400);">
+          Loading&hellip;
+        </div>
+      </div>
+
+      <!-- ════════ NEW ORDER ════════ -->
+      <% } else if (activeTab === 'order') { %>
+      <div style="max-width:760px;">
+        <div id="orderPageAlert" role="alert" aria-live="polite"></div>
+
+        <!-- Services selector -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-body">
+            <h2 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:6px;">
+              Select Services
+            </h2>
+            <p style="color:var(--gray-500);font-size:.86rem;margin-bottom:20px;">
+              For wash services qty = kg. For dry cleaning &amp; ironing qty = number of items.
+            </p>
+            <div id="servicesList"><div style="color:var(--gray-400);padding:20px 0;">Loading&hellip;</div></div>
+            <div style="border-top:2px solid var(--gray-100);margin-top:16px;padding-top:16px;
+                        display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-weight:600;color:var(--gray-700);">Order Total</span>
+              <span id="orderTotal" style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--red);">
+                NPR&nbsp;0
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pickup details -->
+        <div class="card">
+          <div class="card-body">
+            <h2 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:20px;">
+              Pickup &amp; Delivery Details
+            </h2>
+            <div class="order-radius-note">
+              <span aria-hidden="true">&#x1F4CD;</span>
+              <span>Pickup and delivery are available up to 3 km from each branch: Imadol, Nakhu and Hattiban. We&rsquo;ll confirm your exact location on WhatsApp.</span>
+            </div>
+            <form id="orderForm" novalidate>
+              <input type="hidden" name="csrf_token" value="<%= csrf %>">
+              <input type="hidden" name="action"     value="place">
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="pickupAddr">Pickup Address <span class="req">*</span></label>
+                  <textarea class="form-control" id="pickupAddr" name="pickup_address"
+                            rows="2" placeholder="Your address for pickup"
+                            maxlength="500" required></textarea>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="deliveryAddr">Delivery Address</label>
+                  <textarea class="form-control" id="deliveryAddr" name="delivery_address"
+                            rows="2" placeholder="Leave blank if same as pickup"
+                            maxlength="500"></textarea>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="pickupDate">Preferred Pickup Date</label>
+                  <input type="date" class="form-control" id="pickupDate" name="pickup_date"
+                         min="<%= today %>">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="payMethod">Payment Method</label>
+                  <select class="form-control" id="payMethod" name="payment_method">
+                    <option value="cash">Cash on Delivery</option>
+                    <option value="online">Online Payment</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group mt-2">
+                <label class="form-label" for="orderNotes">Special Instructions</label>
+                <textarea class="form-control" id="orderNotes" name="notes"
+                          rows="2" placeholder="Any special care instructions?"
+                          maxlength="1000"></textarea>
+              </div>
+              <button type="submit" class="btn btn-whatsapp btn-full btn-lg mt-2" id="placeOrderBtn">
+                Send Order on WhatsApp
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════ MY ORDERS ════════ -->
+      <% } else if (activeTab === 'orders') { %>
+      <div class="data-table-wrapper">
+        <div class="data-table-header">
+          <h2 style="font-size:1rem;font-weight:600;">Order History</h2>
+          <a href="?tab=order" class="btn btn-primary btn-sm">&#x2795; New Order</a>
+        </div>
+        <div id="ordersWrap" style="padding:32px;text-align:center;color:var(--gray-400);">
+          Loading&hellip;
+        </div>
+      </div>
+
+      <!-- ════════ PROFILE ════════ -->
+      <% } else if (activeTab === 'profile') { %>
+      <div style="max-width:520px;">
+        <div class="card">
+          <div class="card-body">
+            <div style="display:flex;align-items:center;gap:16px;
+                        margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--gray-100);">
+              <div class="sidebar-avatar" style="width:60px;height:60px;font-size:1.5rem;" aria-hidden="true">
+                <%= userInitial %>
+              </div>
+              <div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;">
+                  <%= userName %>
+                </div>
+                <div style="color:var(--gray-500);font-size:.85rem;"><%= userEmail %></div>
+              </div>
+            </div>
+            <div id="profileAlert" role="alert" aria-live="polite"></div>
+            <form id="profileForm" novalidate>
+              <input type="hidden" name="csrf_token" value="<%= csrf %>">
+              <input type="hidden" name="action"     value="update">
+              <div class="form-group">
+                <label class="form-label" for="pName">Full Name <span class="req">*</span></label>
+                <input type="text" class="form-control" id="pName" name="full_name"
+                       placeholder="Your full name" maxlength="100" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pPhone">Phone Number</label>
+                <input type="tel" class="form-control" id="pPhone" name="phone"
+                       placeholder="98XXXXXXXX" maxlength="20">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" value="<%= userEmail %>"
+                       disabled style="opacity:.6;cursor:not-allowed;" aria-readonly="true">
+                <div class="form-hint">Email address cannot be changed.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pAddr">Address</label>
+                <textarea class="form-control" id="pAddr" name="address"
+                          rows="2" placeholder="Your address" maxlength="500"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full" id="saveProfileBtn">
+                Save Changes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════ CHANGE PASSWORD ════════ -->
+      <% } else if (activeTab === 'password') { %>
+      <div style="max-width:460px;">
+        <div class="card">
+          <div class="card-body">
+            <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:20px;">
+              Change Password
+            </h2>
+            <div id="passAlert" role="alert" aria-live="polite"></div>
+            <form id="passForm" novalidate>
+              <input type="hidden" name="csrf_token" value="<%= csrf %>">
+              <input type="hidden" name="action"     value="change_password">
+              <div class="form-group">
+                <label class="form-label" for="currPass">Current Password</label>
+                <div class="input-group">
+                  <span class="input-icon" aria-hidden="true">&#x1F512;</span>
+                  <input type="password" class="form-control" id="currPass" name="current_password"
+                         placeholder="Your current password" maxlength="128" required>
+                  <button type="button" class="input-toggle" data-target="currPass"
+                          aria-label="Show password">&#x1F441;&#xFE0F;</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="newPass">New Password</label>
+                <div class="input-group">
+                  <span class="input-icon" aria-hidden="true">&#x1F511;</span>
+                  <input type="password" class="form-control" id="newPass" name="new_password"
+                         placeholder="Min. 8 characters" minlength="8" maxlength="128" required>
+                  <button type="button" class="input-toggle" data-target="newPass"
+                          aria-label="Show password">&#x1F441;&#xFE0F;</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="confPass">Confirm New Password</label>
+                <div class="input-group">
+                  <span class="input-icon" aria-hidden="true">&#x1F511;</span>
+                  <input type="password" class="form-control" id="confPass" name="confirm_password"
+                         placeholder="Repeat new password" maxlength="128" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full" id="chPassBtn">
+                Update Password
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% } %>
+
+    </div><!-- /dashboard-content -->
+  </div><!-- /dashboard-main -->
+</div><!-- /dashboard-layout -->
+
+<!-- ── Order Detail Modal ──────────────────────────────────── -->
+<div class="modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="orderModalTitle" style="font-family:'Playfair Display',serif;font-size:1.2rem;">
+        Order Details
+      </h2>
+      <button class="modal-close" aria-label="Close modal">&#x00D7;</button>
+    </div>
+    <div id="orderModalBody" style="max-height:72vh;overflow-y:auto;padding-right:4px;">
+      <div style="padding:32px;text-align:center;color:var(--gray-400);">Loading&hellip;</div>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js?v=launch-whatsapp"></script>
+<script>
+// ── Mobile sidebar ────────────────────────────────────────
+const sidebar  = document.getElementById('sidebar');
+const overlay  = document.getElementById('sidebarOverlay');
+const menuBtn  = document.getElementById('mobMenuBtn');
+
+function openSidebar()  { sidebar.classList.add('open'); overlay.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+
+menuBtn?.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+overlay?.addEventListener('click', closeSidebar);
+
+// ── Logout ────────────────────────────────────────────────
+document.getElementById('logoutBtn').addEventListener('click', async e => {
+  e.preventDefault();
+  const res = await apiCall('./php/auth.php', { action: 'logout' });
+  window.location.href = res.redirect || 'login.php';
+});
+
+// ── Helpers ───────────────────────────────────────────────
+const currentCustomerName = <%- JSON.stringify(userName) %>;
+
+function makeStatusBadge(status) {
+  const cfg = STATUS_CONFIG[status] || { label: status, icon: '?' };
+  const span = document.createElement('span');
+  span.className = `status-badge status-${escHtml(status)}`;
+  span.textContent = `${cfg.icon} ${cfg.label}`;
+  return span;
+}
+
+function buildOrderTable(orders, containerId) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  if (!orders.length) {
+    wrap.innerHTML = '';
+    const empty = document.createElement('div');
+    empty.style.cssText = 'padding:48px;text-align:center;color:var(--gray-400);';
+    empty.innerHTML = '<div style="font-size:3rem;margin-bottom:12px;">&#x1F4ED;</div>';
+    const h = document.createElement('p');
+    h.style.cssText = 'font-weight:600;margin-bottom:16px;';
+    h.textContent = 'No orders yet';
+    const a = document.createElement('a');
+    a.href = '?tab=order'; a.className = 'btn btn-primary'; a.textContent = 'Place Your First Order →';
+    empty.appendChild(h); empty.appendChild(a);
+    wrap.appendChild(empty);
+    return;
+  }
+  const table = document.createElement('table');
+  table.className = 'data-table';
+  table.innerHTML = `<thead><tr>
+    <th>Order #</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th></th>
+  </tr></thead>`;
+  const tbody = document.createElement('tbody');
+  orders.forEach(o => {
+    const tr = document.createElement('tr');
+    const num = document.createElement('td');
+    num.innerHTML = `<strong style="color:var(--red);font-size:.82rem;">${escHtml(o.order_number)}</strong>`;
+    const date = document.createElement('td'); date.textContent = formatDate(o.created_at);
+    const items= document.createElement('td'); items.textContent = o.item_count + ' item(s)';
+    const tot  = document.createElement('td');
+    tot.innerHTML = `<strong>${escHtml(formatNPR(o.total_amount))}</strong>`;
+    const st   = document.createElement('td'); st.appendChild(makeStatusBadge(o.status));
+    const act  = document.createElement('td');
+    const btn  = document.createElement('button');
+    btn.className = 'btn btn-outline btn-sm';
+    btn.textContent = 'View →';
+    btn.addEventListener('click', () => viewOrderDetail(o.id));
+    act.appendChild(btn);
+    tr.append(num, date, items, tot, st, act);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.innerHTML = '';
+  wrap.appendChild(table);
+}
+
+// ── OVERVIEW ─────────────────────────────────────────────
+async function loadOverview() {
+  const res = await apiGet('./php/orders.php', { action: 'get_orders', page: 1 });
+  if (!res.success) return;
+  const orders = res.orders || [];
+  let inProg = 0, delivered = 0, spent = 0;
+  orders.forEach(o => {
+    if (['pending','confirmed','picked_up','in_process','ready'].includes(o.status)) inProg++;
+    if (o.status === 'delivered') delivered++;
+    if (o.status !== 'cancelled') spent += parseFloat(o.total_amount);
+  });
+  const icons  = ['&#x1F4CB;','&#x23F3;','&#x2705;','&#x1F4B0;'];
+  const values = [res.total, inProg, delivered, formatNPR(spent)];
+  document.querySelectorAll('#statsGrid .stat-card').forEach((card, i) => {
+    card.querySelector('.stat-card-icon').innerHTML = icons[i];
+    const v = card.querySelector('.stat-card-value');
+    v.textContent = values[i];
+    if (i < 3) v.style.fontSize = '2rem';
+  });
+  buildOrderTable(orders.slice(0, 5), 'recentOrdersWrap');
+}
+
+// ── SERVICES & ORDER ──────────────────────────────────────
+let services = [], quantities = {};
+
+async function loadServices() {
+  const res = await apiGet('./php/orders.php', { action: 'get_services' });
+  if (!res.success) return;
+  services = res.services;
+  services.forEach(s => quantities[s.id] = 0);
+  renderServices();
+}
+
+function renderServices() {
+  const wrap = document.getElementById('servicesList');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  services.forEach(s => {
+    const row = document.createElement('div');
+    row.className = 'svc-row';
+
+    const info = document.createElement('div');
+    const name = document.createElement('div');
+    name.style.cssText = 'font-weight:600;font-size:.95rem;';
+    name.textContent = s.name;
+    const pr = document.createElement('div');
+    pr.style.cssText = 'font-size:.8rem;color:var(--gray-500);margin-top:2px;';
+    pr.textContent = formatNPR(s.price) + ' / ' + s.unit;
+    info.appendChild(name); info.appendChild(pr);
+
+    const ctrl = document.createElement('div');
+    ctrl.className = 'qty-ctrl';
+    const minus = document.createElement('button');
+    minus.type = 'button'; minus.className = 'qty-btn'; minus.textContent = '−';
+    minus.setAttribute('aria-label', 'Decrease quantity for ' + s.name);
+    const val = document.createElement('span');
+    val.className = 'qty-val'; val.id = 'qty_' + s.id; val.textContent = '0';
+    val.setAttribute('aria-live', 'polite');
+    const plus = document.createElement('button');
+    plus.type = 'button'; plus.className = 'qty-btn'; plus.textContent = '+';
+    plus.setAttribute('aria-label', 'Increase quantity for ' + s.name);
+
+    minus.addEventListener('click', () => changeQty(s.id, -1));
+    plus.addEventListener('click',  () => changeQty(s.id,  1));
+    ctrl.append(minus, val, plus);
+
+    const sub = document.createElement('div');
+    sub.className = 'svc-sub'; sub.id = 'sub_' + s.id; sub.textContent = '—';
+
+    row.append(info, ctrl, sub);
+    wrap.appendChild(row);
+  });
+}
+
+function changeQty(id, delta) {
+  quantities[id] = Math.max(0, (quantities[id] || 0) + delta);
+  const valEl = document.getElementById('qty_' + id);
+  const subEl = document.getElementById('sub_' + id);
+  if (valEl) valEl.textContent = quantities[id];
+  const svc = services.find(s => s.id == id);
+  if (subEl) subEl.textContent = quantities[id] > 0 ? formatNPR(quantities[id] * parseFloat(svc.price)) : '—';
+  updateTotal();
+}
+
+function updateTotal() {
+  let total = 0;
+  services.forEach(s => { total += (quantities[s.id] || 0) * parseFloat(s.price); });
+  const el = document.getElementById('orderTotal');
+  if (el) el.textContent = formatNPR(total);
+}
+
+document.getElementById('orderForm')?.addEventListener('submit', async e => {
+  e.preventDefault();
+  const items = services.filter(s => quantities[s.id] > 0)
+                        .map(s => ({ service_id: s.id, quantity: quantities[s.id] }));
+  if (!items.length) { showAlert('orderPageAlert','Please add at least one service','error'); return; }
+
+  const pickupAddress = document.getElementById('pickupAddr').value.trim();
+  if (!pickupAddress) { showAlert('orderPageAlert','Please add your pickup address','error'); return; }
+
+  const btn = document.getElementById('placeOrderBtn');
+  setLoading(btn, true);
+
+  const itemLines = items.map(item => {
+    const svc = services.find(s => s.id === item.service_id);
+    const subtotal = item.quantity * parseFloat(svc.price);
+    return `- ${svc.name}: ${item.quantity} ${svc.unit} = ${formatNPR(subtotal)}`;
+  });
+  const total = items.reduce((sum, item) => {
+    const svc = services.find(s => s.id === item.service_id);
+    return sum + item.quantity * parseFloat(svc.price);
+  }, 0);
+  const message = [
+    'Hello Sagun\'s Laundry, I want to place an order.',
+    `Customer: ${currentCustomerName}`,
+    '',
+    'Services:',
+    itemLines.join('\n'),
+    `Total estimate: ${formatNPR(total)}`,
+    '',
+    `Pickup address: ${pickupAddress}`,
+    `Delivery address: ${document.getElementById('deliveryAddr').value.trim() || 'Same as pickup'}`,
+    `Preferred pickup date: ${document.getElementById('pickupDate').value || 'Please suggest'}`,
+    `Payment method: ${document.getElementById('payMethod').value}`,
+    `Notes: ${document.getElementById('orderNotes').value.trim() || 'None'}`,
+    '',
+    'Please confirm availability. I understand pickup and delivery are available up to 3 km from each branch.'
+  ].join('\n');
+
+  setTimeout(() => goToWhatsApp(message), 250);
+});
+
+// ── MY ORDERS ────────────────────────────────────────────
+async function loadOrders() {
+  const res = await apiGet('./php/orders.php', { action: 'get_orders', page: 1 });
+  if (!res.success) { document.getElementById('ordersWrap').textContent = 'Failed to load orders.'; return; }
+  buildOrderTable(res.orders || [], 'ordersWrap');
+}
+
+// ── ORDER DETAIL MODAL ────────────────────────────────────
+async function viewOrderDetail(id) {
+  document.getElementById('orderModalTitle').textContent = 'Order Details';
+  document.getElementById('orderModalBody').innerHTML = '<div style="padding:32px;text-align:center;color:var(--gray-400);">Loading…</div>';
+  openModal('orderModal');
+
+  const res = await apiGet('./php/orders.php', { action: 'get_order', id });
+  if (!res.success) {
+    document.getElementById('orderModalBody').innerHTML = '';
+    showAlert('orderModalBody', res.error || 'Failed to load order', 'error');
+    return;
+  }
+  const o = res.order;
+  document.getElementById('orderModalTitle').textContent = 'Order #' + o.order_number;
+
+  const steps   = ['pending','confirmed','picked_up','in_process','ready','delivered'];
+  const labels  = ['Received','Confirmed','Picked Up','Cleaning','Ready','Delivered'];
+  const curIdx  = o.status === 'cancelled' ? -1 : steps.indexOf(o.status);
+
+  // Build progress — all DOM, no innerHTML with user data
+  const body = document.createElement('div');
+
+  // Progress bar
+  const progWrap = document.createElement('div');
+  progWrap.className = 'prog-wrap'; progWrap.setAttribute('aria-label','Order progress');
+  if (o.status === 'cancelled') {
+    const alert = document.createElement('div');
+    alert.className = 'alert alert-error'; alert.style.width = '100%';
+    alert.textContent = '❌ This order was cancelled.';
+    progWrap.appendChild(alert);
+  } else {
+    steps.forEach((s, i) => {
+      const step = document.createElement('div'); step.className = 'prog-step';
+      const dot  = document.createElement('div');
+      dot.className = 'prog-dot ' + (i < curIdx ? 'done' : i === curIdx ? 'active' : '');
+      dot.textContent = i < curIdx ? '✓' : String(i + 1);
+      const lbl = document.createElement('div');
+      lbl.className = 'prog-label ' + (i < curIdx ? 'done' : i === curIdx ? 'active' : '');
+      lbl.textContent = labels[i];
+      step.append(dot, lbl);
+      progWrap.appendChild(step);
+      if (i < steps.length - 1) {
+        const line = document.createElement('div');
+        line.className = 'prog-line ' + (i < curIdx ? 'done' : '');
+        progWrap.appendChild(line);
+      }
+    });
+  }
+  body.appendChild(progWrap);
+
+  // Meta
+  const meta = document.createElement('div');
+  meta.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0;font-size:.85rem;';
+  [
+    ['Pickup',    o.pickup_address    || '—'],
+    ['Delivery',  o.delivery_address  || 'Same as pickup'],
+    ['Pickup Date', formatDate(o.pickup_date)],
+    ['Payment',   (o.payment_method||'cash') + ' · ' + (o.payment_status||'pending')],
+  ].forEach(([label, value]) => {
+    const d = document.createElement('div');
+    const b = document.createElement('strong'); b.textContent = label + ':';
+    const p = document.createElement('p'); p.textContent = value;
+    p.style.color = 'var(--gray-600)'; p.style.marginTop = '2px';
+    d.append(b, p); meta.appendChild(d);
+  });
+  body.appendChild(meta);
+
+  // Items
+  const itemsTitle = document.createElement('strong');
+  itemsTitle.style.cssText = 'font-size:.85rem;display:block;margin-bottom:8px;';
+  itemsTitle.textContent = 'Items';
+  body.appendChild(itemsTitle);
+  (o.items || []).forEach(item => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--gray-100);font-size:.86rem;';
+    const name = document.createElement('span'); name.textContent = item.service_name;
+    const qty  = document.createElement('span'); qty.textContent = item.quantity + ' × ' + formatNPR(item.unit_price);
+    qty.style.color = 'var(--gray-500)';
+    const sub  = document.createElement('strong'); sub.textContent = formatNPR(item.subtotal);
+    row.append(name, qty, sub); body.appendChild(row);
+  });
+  const totRow = document.createElement('div');
+  totRow.style.cssText = 'display:flex;justify-content:space-between;padding:12px 0;font-size:.95rem;';
+  const totLabel = document.createElement('strong'); totLabel.textContent = 'Total';
+  const totVal   = document.createElement('strong'); totVal.style.color = 'var(--red)'; totVal.textContent = formatNPR(o.total_amount);
+  totRow.append(totLabel, totVal); body.appendChild(totRow);
+
+  document.getElementById('orderModalBody').innerHTML = '';
+  document.getElementById('orderModalBody').appendChild(body);
+}
+
+// ── PROFILE ──────────────────────────────────────────────
+async function loadProfile() {
+  const res = await apiGet('./php/profile.php', { action: 'get' });
+  if (!res.success) return;
+  const u = res.user;
+  const pName  = document.getElementById('pName');
+  const pPhone = document.getElementById('pPhone');
+  const pAddr  = document.getElementById('pAddr');
+  if (pName)  pName.value  = u.full_name || '';
+  if (pPhone) pPhone.value = u.phone     || '';
+  if (pAddr)  pAddr.value  = u.address   || '';
+}
+
+document.getElementById('profileForm')?.addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('saveProfileBtn');
+  setLoading(btn, true);
+  const res = await apiCall('./php/profile.php', {
+    action:    'update',
+    full_name: document.getElementById('pName').value,
+    phone:     document.getElementById('pPhone').value,
+    address:   document.getElementById('pAddr').value,
+  });
+  setLoading(btn, false);
+  if (res.success) {
+    showAlert('profileAlert', res.message || 'Profile updated!', 'success');
+  } else {
+    showAlert('profileAlert', res.error || 'Update failed', 'error');
+  }
+});
+
+// ── CHANGE PASSWORD ───────────────────────────────────────
+document.getElementById('passForm')?.addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('chPassBtn');
+  setLoading(btn, true);
+  const res = await apiCall('./php/profile.php', {
+    action:           'change_password',
+    current_password: document.getElementById('currPass').value,
+    new_password:     document.getElementById('newPass').value,
+    confirm_password: document.getElementById('confPass').value,
+  });
+  setLoading(btn, false);
+  if (res.success) {
+    showAlert('passAlert', res.message || 'Password changed!', 'success');
+    document.getElementById('passForm').reset();
+  } else {
+    showAlert('passAlert', res.error || 'Failed to change password', 'error');
+  }
+});
+
+// ── INIT ─────────────────────────────────────────────────
+const tab = '<%= activeTab %>';
+if (tab === 'overview') loadOverview();
+if (tab === 'order')    loadServices();
+if (tab === 'orders')   loadOrders();
+if (tab === 'profile')  loadProfile();
+</script>
+</body>
+</html>

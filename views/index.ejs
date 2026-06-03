@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<%= csrf %>">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Sagun's Laundry | Main Branch Imadol</title>
+  <meta name="description" content="Sagun's Laundry provides wash, dry, fold, dry cleaning and pickup service from the main branch in Imadol, with branches in Nakhu and Hattiban.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=branch-map-links">
+</head>
+<body class="sl-page">
+
+<nav class="navbar sl-nav" id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.php" class="navbar-logo logo-lockup logo-lockup--nav" aria-label="Sagun's Laundry Home">
+      <img src="assets/saguns-brand-logo-horizontal.png" alt="Sagun's Laundry">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#branches">Branches</a></li>
+      <li><a href="pricing.php">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="tel:+9779749863285" class="btn btn-ghost btn-sm">Call</a>
+      <a href="<%= whatsappPickupUrl %>" class="btn btn-primary btn-sm">Book Pickup</a>
+    </div>
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+  <a href="#services">Services</a>
+  <a href="#about">About Us</a>
+  <a href="#branches">Branches</a>
+  <a href="pricing.php">Pricing</a>
+  <a href="#contact">Contact</a>
+  <a href="tel:+9779749863285">Call</a>
+  <a href="<%= whatsappPickupUrl %>">Book Pickup</a>
+</div>
+
+<main>
+  <section class="sl-hero" id="hero" aria-label="Sagun's Laundry hero">
+    <div class="sl-hero__media" aria-hidden="true"></div>
+    <div class="container sl-hero__inner">
+      <div class="sl-hero__copy">
+        <p class="sl-kicker">Main Branch | Imadol, Lalitpur</p>
+        <h1>Clean clothes, handled with care by a local laundry team.</h1>
+        <p class="sl-lead">Sagun's Laundry offers daily wearable washing, wash dry fold, blanket wash, dry cleaning and pickup service from its Imadol main branch.</p>
+        <div class="sl-hero__actions">
+          <a href="<%= whatsappPickupUrl %>" class="btn btn-primary btn-lg">Book Pickup</a>
+          <a href="#about" class="btn btn-outline btn-lg">Meet the Founder</a>
+        </div>
+      </div>
+      <aside class="sl-hero__panel" aria-label="Laundry branch summary">
+        <div>
+          <span>Main Branch</span>
+          <strong>Imadol</strong>
+        </div>
+        <div>
+          <span>Other Branches</span>
+          <strong>Nakhu & Hattiban</strong>
+        </div>
+        <div>
+          <span>Service</span>
+          <strong>Pickup & Drop Within 3 km</strong>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sl-strip" id="branches" aria-label="Branches">
+    <div class="container sl-strip__grid">
+      <div class="sl-branch-card sl-branch-card--main">
+        <span>Main Branch</span>
+        <strong>Imadol, Lalitpur</strong>
+      </div>
+      <a class="sl-branch-card sl-branch-card--link" href="https://www.google.com/maps/place/Sagun%E2%80%99s+Laundry+(Nakkhu+Branch)/@27.6612593,85.3053509,17z/data=!3m1!4b1!4m6!3m5!1s0x39eb190045cc58a9:0x97717bbdec431cc9!8m2!3d27.6612593!4d85.3053509!16s%2Fg%2F11m5vx6n9c?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Open Nakhu branch location on Google Maps">
+        <span>Branch</span>
+        <strong>Nakhu</strong>
+      </a>
+      <a class="sl-branch-card sl-branch-card--link" href="https://www.google.com/maps/place/Sagun%27s+Laundry+(Hattiban+Branch+)/data=!4m2!3m1!1s0x0:0xb5a06e7920d77aff?sa=X&ved=1t:2428&ictx=111" target="_blank" rel="noopener noreferrer" aria-label="Open Hattiban branch location on Google Maps">
+        <span>Branch</span>
+        <strong>Hattiban</strong>
+      </a>
+      <div class="sl-branch-card">
+        <span>Open Daily</span>
+        <strong>7:00 AM - 8:00 PM</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="section sl-section" id="services" aria-labelledby="servicesHeading">
+    <div class="container">
+      <div class="sl-section-head">
+        <p class="sl-kicker">Laundry Services</p>
+        <h2 id="servicesHeading">Everything your clothes need, without drama.</h2>
+        <p>Clear service options for households, students, working professionals and families around Lalitpur.</p>
+      </div>
+      <div class="sl-service-grid">
+        <% [
+          ['Daily Wearable Clothes', 'Regular clothes washed and folded for everyday use.', 'From NPR 50 / kg'],
+          ['Wash, Dry & Fold', 'Washed, dried and neatly packed so you can put them straight away.', 'Quick turnaround'],
+          ['Blanket Wash', 'Heavy blankets and bedding cleaned with machine support.', 'Seasonal care'],
+          ['Dry Cleaning', 'Formal and delicate garments handled with extra attention.', 'From NPR 120 / item']
+        ].forEach(([title, text, meta]) => { %>
+          <article class="sl-service-card">
+            <span><%= meta %></span>
+            <h3><%= title %></h3>
+            <p><%= text %></p>
+          </article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section sl-about" id="about" aria-labelledby="aboutHeading">
+    <div class="container sl-about__grid">
+      <div class="sl-founder-card">
+        <img src="assets/owner-founder-portrait.png" alt="Founder and owner of Sagun's Laundry">
+        <div class="sl-founder-card__caption">
+          <strong>Founder, Sagun's Laundry</strong>
+          <span>Built through discipline, service and hard work</span>
+        </div>
+      </div>
+      <div class="sl-about__text">
+        <p class="sl-kicker">About Us</p>
+        <h2 id="aboutHeading">Started by a hardworking woman, grown through trust.</h2>
+        <p>Sagun's Laundry is led by a dedicated woman entrepreneur who built the business herself with persistence, practical skill and care for customers. Her story is one of women empowerment, daily hard work and the courage to create opportunities from the ground up.</p>
+        <p>The Imadol location is the main branch, serving as the heart of the operation. From here, the team manages laundry care with real machines, real people and a simple promise: clothes should return clean, fresh and handled respectfully.</p>
+        <div class="sl-about__stats">
+          <div><strong>3</strong><span>Branches</span></div>
+          <div><strong>Main</strong><span>Imadol</span></div>
+          <div><strong>Local</strong><span>Owner-led</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section sl-facility" aria-labelledby="facilityHeading">
+    <div class="container">
+      <div class="sl-section-head sl-section-head--left">
+        <p class="sl-kicker">Inside the Laundry</p>
+        <h2 id="facilityHeading">Professional machines, practical workflow.</h2>
+        <p>Not a stock-photo showroom. These are polished views of the real laundry setup used for daily wash, sorting, drying and folding.</p>
+      </div>
+      <div class="sl-facility-grid">
+        <figure>
+          <img src="assets/facility-industrial-wash.png" alt="Industrial laundry washing equipment">
+          <figcaption>Industrial wash setup</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/facility-dryer-baskets.png" alt="Large dryer and laundry baskets">
+          <figcaption>Drying and sorting area</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/facility-workflow.png" alt="Laundry workflow with machines and baskets">
+          <figcaption>Daily laundry workflow</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section sl-contact" id="contact" aria-labelledby="contactHeading">
+    <div class="container sl-contact__grid">
+      <div>
+        <p class="sl-kicker">Visit or Message</p>
+        <h2 id="contactHeading">Main branch in Imadol. Branches in Nakhu and Hattiban.</h2>
+        <div class="sl-contact-list">
+          <p><strong>Main Branch:</strong> Imadol, Lalitpur</p>
+          <p><strong>Other Branches:</strong> Nakhu, Hattiban</p>
+          <p><strong>Phone:</strong> <a href="tel:+9779749863285">+977 9749863285</a></p>
+          <p><strong>Hours:</strong> 7:00 AM - 8:00 PM, daily</p>
+        </div>
+      </div>
+      <form id="contactForm" class="sl-contact-form" novalidate>
+        <div id="contactAlert"></div>
+        <label for="cf_name">Your Name</label>
+        <input type="text" id="cf_name" name="name" placeholder="Ram Bahadur" maxlength="100" required>
+        <label for="cf_phone">Phone</label>
+        <input type="tel" id="cf_phone" name="phone" placeholder="98XXXXXXXX" maxlength="20">
+        <label for="cf_message">Message</label>
+        <textarea id="cf_message" name="message" rows="4" placeholder="Tell us what laundry service you need" maxlength="2000" required></textarea>
+        <button type="submit" class="btn btn-primary btn-full">Send on WhatsApp</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="sl-footer" role="contentinfo">
+  <div class="container sl-footer__grid">
+    <div>
+      <div class="logo-lockup logo-lockup--footer">
+        <img src="assets/saguns-brand-logo-source.png" alt="Sagun's Laundry">
+      </div>
+      <p>Main branch in Imadol with additional branches in Nakhu and Hattiban.</p>
+    </div>
+    <div>
+      <strong>Quick Links</strong>
+      <a href="#services">Services</a>
+      <a href="#about">About Us</a>
+      <a href="#branches">Branches</a>
+      <a href="pricing.php">Pricing</a>
+    </div>
+    <div>
+      <strong>Booking</strong>
+      <a href="<%= whatsappPickupUrl %>">Book Pickup</a>
+      <a href="tel:+9779749863285">Call Sagun's Laundry</a>
+    </div>
+  </div>
+  <div class="container sl-footer__bottom">
+    <span>&copy; <%= year %> Sagun's Laundry. All rights reserved.</span>
+    <span>Imadol | Nakhu | Hattiban</span>
+  </div>
+</footer>
+
+<script src="js/main.js?v=launch-whatsapp"></script>
+</body>
+</html>

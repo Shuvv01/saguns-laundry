@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<%= csrf %>">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Pricing &mdash; Sagun's Laundry</title>
+  <meta name="description" content="Transparent, honest pricing for all Sagun's Laundry services in Imadol, Lalitpur, Nepal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background:#fbf7f2; }
+    .pricing-hero {
+      background:
+        radial-gradient(circle at 18% 24%, rgba(201,153,43,.20), transparent 24%),
+        linear-gradient(135deg,#8F241C,#C83224 62%,#E65042);
+      padding:120px 0 80px;
+      text-align:center;
+    }
+    .pricing-layout { display:grid; grid-template-columns:1fr 340px; gap:48px; align-items:start; }
+    @media(max-width:900px) { .pricing-layout { grid-template-columns:1fr; } }
+    .sticky-col { position:sticky; top:88px; }
+    .summary-table-wrap { border-radius:var(--radius-lg); overflow:hidden; border:1px solid rgba(32,25,23,.10); margin-bottom:20px; box-shadow:0 14px 34px rgba(32,25,23,.06); }
+    .summary-table { width:100%; border-collapse:collapse; }
+    .summary-table th { background:var(--red); color:#fff; padding:13px 16px; text-align:left; font-size:.83rem; font-weight:600; letter-spacing:.04em; }
+    .summary-table td { padding:13px 16px; border-bottom:1px solid var(--gray-100); font-size:.9rem; }
+    .summary-table tr:last-child td { border-bottom:none; }
+    .summary-table tbody tr:hover { background:var(--red-pale); }
+    .price-val { font-weight:700; color:var(--red); }
+    .order-cta-card { background:linear-gradient(145deg,#8F241C,#C83224); border-radius:var(--radius-lg); padding:28px; text-align:center; box-shadow:0 18px 44px rgba(143,36,28,.20); }
+    .pricing-cta-mark { width:64px;height:64px;margin:0 auto 12px;padding:8px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center; }
+    .pricing-cta-mark img { width:100%;height:100%;object-fit:contain;display:block; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar (always scrolled style on inner pages) -->
+<nav class="navbar scrolled" id="navbar" role="navigation" aria-label="Main navigation" data-always-scrolled="true">
+  <div class="navbar-inner">
+    <a href="index.php" class="navbar-logo logo-lockup logo-lockup--nav" aria-label="Sagun's Laundry Home">
+      <img src="assets/saguns-brand-logo-horizontal.png" alt="Sagun's Laundry">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.php#services">Services</a></li>
+      <li><a href="pricing.php" class="active">Pricing</a></li>
+      <li><a href="index.php#contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="tel:+9779749863285" class="btn btn-ghost btn-sm">Call</a>
+      <a href="<%= whatsappPickupUrl %>" class="btn btn-primary btn-sm">Book Pickup</a>
+    </div>
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span style="background:var(--charcoal);"></span>
+      <span style="background:var(--charcoal);"></span>
+      <span style="background:var(--charcoal);"></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu" role="navigation">
+  <a href="index.php#services">Services</a>
+  <a href="pricing.php">Pricing</a>
+  <a href="index.php#contact">Contact</a>
+  <a href="tel:+9779749863285">Call</a>
+  <a href="<%= whatsappPickupUrl %>">Book Pickup</a>
+</div>
+
+<!-- Hero -->
+<div class="pricing-hero" role="banner">
+  <div class="container">
+    <span class="eyebrow" style="color:rgba(255,200,180,.9);">Transparent Pricing</span>
+    <h1 class="display-xl" style="color:#fff;margin-bottom:14px;">Simple, Honest Rates</h1>
+    <p style="color:rgba(255,255,255,.8);font-size:1.05rem;max-width:520px;margin:0 auto;">
+      No hidden charges. No surprises. Just clean clothes at fair prices.
+    </p>
+  </div>
+</div>
+
+<!-- Pricing Section -->
+<section class="section" aria-labelledby="pricingHeading">
+  <div class="container">
+    <div class="pricing-layout">
+
+      <!-- Service Cards -->
+      <div>
+        <span class="eyebrow">Service Rates</span>
+        <h2 class="display-md" id="pricingHeading" style="margin-bottom:6px;">All Services</h2>
+        <p style="color:var(--gray-500);font-size:.92rem;margin-bottom:28px;">
+          Click any service to see what&rsquo;s included.
+        </p>
+
+        <% pricingServices.forEach(([icon, name, price, unit, desc, tags], i) => { %>
+        <article class="pricing-card animate-on-scroll" style="transition-delay:<%= i * .06 %>s;"
+                 role="button" tabindex="0" aria-expanded="false"
+                 aria-label="<%= stripTags(name) %> — click to expand"
+                 onclick="this.classList.toggle('open'); this.getAttribute('aria-expanded')==='true' ? this.setAttribute('aria-expanded','false') : this.setAttribute('aria-expanded','true')">
+          <div class="pricing-card-header">
+            <div class="pricing-icon" aria-hidden="true"><%- icon %></div>
+            <div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;margin-bottom:4px;">
+                <%= name %>
+              </div>
+              <div style="font-size:.82rem;color:var(--gray-500);"><%- desc %></div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--red);">
+                <%- price %>
+              </div>
+              <div style="font-size:.75rem;color:var(--gray-500);"><%- unit %></div>
+              <div class="pricing-chevron" aria-hidden="true">&#x25BE;</div>
+            </div>
+          </div>
+          <div class="pricing-details" role="region" aria-label="Details for <%= name %>">
+            <div style="padding-top:6px;border-top:1px solid var(--gray-100);">
+              <strong style="font-size:.82rem;">Suitable for:</strong>
+              <div class="tag-list">
+                <% tags.forEach((tag) => { %>
+                <span class="tag">&#x2713; <%= tag %></span>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </article>
+        <% }); %>
+      </div>
+
+      <!-- Sticky sidebar -->
+      <div class="sticky-col">
+        <!-- Summary table -->
+        <div class="summary-table-wrap animate-on-scroll">
+          <table class="summary-table" aria-label="Pricing summary">
+            <thead><tr><th scope="col">Service</th><th scope="col">Rate</th></tr></thead>
+            <tbody>
+              <% pricingRows.forEach(([svc, rate]) => { %>
+              <tr>
+                <td><%= svc %></td>
+                <td class="price-val"><%= rate %></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Order CTA -->
+        <div class="order-cta-card animate-on-scroll">
+          <div class="pricing-cta-mark">
+            <img src="assets/saguns-brand-mark.png" alt="">
+          </div>
+          <h2 style="font-family:'Playfair Display',serif;color:#fff;font-size:1.2rem;margin-bottom:8px;">
+            Ready to Order?
+          </h2>
+          <p style="color:rgba(255,255,255,.84);font-size:.87rem;margin-bottom:18px;line-height:1.6;">
+            Pickup &amp; delivery available up to 3 km from each branch.
+          </p>
+          <a href="<%= whatsappPickupUrl %>" class="btn btn-white btn-full" style="margin-bottom:10px;">
+            Book on WhatsApp
+          </a>
+          <a href="tel:+9779749863285" class="btn btn-outline-white btn-full">
+            &#x1F4DE; Call Us
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div style="max-width:700px;margin:80px auto 0;">
+      <div class="section-header animate-on-scroll">
+        <span class="eyebrow">FAQs</span>
+        <h2 class="display-md section-title">Common Questions</h2>
+        <div class="section-divider" aria-hidden="true"></div>
+      </div>
+
+      <% faqs.forEach(([q, a], i) => { %>
+      <div class="faq-item animate-on-scroll" style="transition-delay:<%= i * .06 %>s;">
+        <div class="faq-q" role="button" tabindex="0" aria-expanded="false"
+             onclick="this.parentElement.classList.toggle('open'); this.getAttribute('aria-expanded')==='true'?this.setAttribute('aria-expanded','false'):this.setAttribute('aria-expanded','true')">
+          <span><%= q %></span>
+          <span aria-hidden="true">&#x25BE;</span>
+        </div>
+        <div class="faq-a" role="region">
+          <%- a %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div style="text-align:center;padding:20px 0;">
+      <div class="footer-logo logo-lockup logo-lockup--footer" style="margin-bottom:10px;">
+        <img src="assets/saguns-brand-logo-source.png" alt="Sagun's Laundry">
+      </div>
+      <p style="color:rgba(255,255,255,.5);font-size:.85rem;">Imadol, Lalitpur, Nepal &middot; +977&nbsp;9749863285</p>
+      <p style="color:rgba(255,255,255,.3);font-size:.78rem;margin-top:14px;">
+        &copy; <%= year %> Sagun's Laundry. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=launch-whatsapp"></script>
+<script>
+document.querySelectorAll('.pricing-card, .faq-q').forEach(el => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      el.click();
+    }
+  });
+});
+</script>
+</body>
+</html>

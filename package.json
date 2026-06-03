@@ -1,0 +1,17 @@
+{
+  "name": "saguns-laundry-node",
+  "version": "1.0.0",
+  "description": "Sagun's Laundry web application converted to a terminal-friendly Node.js/Express app.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2"
+  }
+}

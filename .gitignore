@@ -1,0 +1,31 @@
+# Dependencies are installed by Railway during deploy
+node_modules/
+
+# Local runtime data and secrets
+data/*.json
+data/admin-setup.txt
+logs/
+.env
+.env.*
+
+# Local QA/build artifacts
+*.zip
+*.log
+
+# Legacy PHP/XAMPP version, not used by the Node/EJS Railway app
+*.php
+/php/
+/admin/
+composer.json
+composer.lock
+database.sql
+.htaccess
+
+# Local screenshots/reference exports
+*-desktop.png
+*-mobile.png
+admin-dashboard.png
+homepage-desktop.png
+homepage-mobile.png
+pricing-desktop.png
+user-dashboard.png
