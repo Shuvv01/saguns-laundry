@@ -2,7 +2,7 @@
 // Sagun's Laundry — main.js  (XSS-safe, CSRF-aware)
 // ============================================================
 
-const SAGUNS_WHATSAPP_NUMBER = '9779851302350';
+const SAGUNS_WHATSAPP_NUMBER = '9779851302353';
 
 function buildWhatsAppUrl(message) {
   return `https://wa.me/${SAGUNS_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -211,67 +211,6 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { document.querySelectorAll('.modal-overlay.open').forEach(m => { m.classList.remove('open'); document.body.style.overflow = ''; }); }
 });
 
-// ── Password Toggle ───────────────────────────────────────
-function initPasswordToggles() {
-  document.querySelectorAll('.input-toggle[data-target]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const input = document.getElementById(btn.dataset.target);
-      if (!input) return;
-      const show = input.type === 'password';
-      input.type  = show ? 'text' : 'password';
-      btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
-      btn.textContent = show ? '🙈' : '👁️';
-    });
-  });
-}
-
-// ── OTP Input ─────────────────────────────────────────────
-function initOTPInputs() {
-  const inputs = Array.from(document.querySelectorAll('.otp-input'));
-  inputs.forEach((input, i) => {
-    input.addEventListener('input', () => {
-      // Only allow single digit
-      input.value = input.value.replace(/\D/g, '').slice(0, 1);
-      if (input.value && i < inputs.length - 1) inputs[i + 1].focus();
-    });
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Backspace' && !input.value && i > 0) { e.preventDefault(); inputs[i - 1].focus(); }
-    });
-    input.addEventListener('paste', e => {
-      e.preventDefault();
-      const digits = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
-      digits.split('').slice(0, inputs.length).forEach((ch, j) => { if (inputs[j]) inputs[j].value = ch; });
-      const next = Math.min(digits.length, inputs.length - 1);
-      inputs[next]?.focus();
-    });
-  });
-}
-
-function getOTPValue() {
-  return Array.from(document.querySelectorAll('.otp-input')).map(i => i.value).join('');
-}
-
-// ── Countdown ─────────────────────────────────────────────
-function startCountdown(elementId, seconds) {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  let rem = seconds;
-  el.style.pointerEvents = 'none';
-  el.style.opacity = '0.5';
-  el.textContent = `Resend in ${rem}s`;
-  const t = setInterval(() => {
-    rem--;
-    if (rem <= 0) {
-      clearInterval(t);
-      el.textContent = 'Resend OTP';
-      el.style.pointerEvents = '';
-      el.style.opacity = '';
-    } else {
-      el.textContent = `Resend in ${rem}s`;
-    }
-  }, 1000);
-}
-
 // ── Formatters ────────────────────────────────────────────
 function formatNPR(amount) {
   const n = parseFloat(amount) || 0;
@@ -342,8 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initServiceCards();
   initScrollAnimations();
-  initPasswordToggles();
-  initOTPInputs();
   initContactForm();
 });
 

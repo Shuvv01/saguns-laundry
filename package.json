@@ -9,9 +9,7 @@
     "dev": "node --watch server.js"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.2",
     "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "express-session": "^1.18.2"
+    "express": "^5.1.0"
   }
 }

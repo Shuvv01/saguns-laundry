@@ -1,6 +1,6 @@
 # Sagun's Laundry Launch Site
 
-Node.js/Express site for Sagun's Laundry. The public customer flow is WhatsApp-first: booking, signup requests, contact messages, and order confirmation are handed off to the official WhatsApp number instead of relying on a production database.
+Node.js/Express public site for Sagun's Laundry. The customer flow is WhatsApp-first: booking, signup requests, contact messages, and order confirmation are handed off to the official WhatsApp number. There is no admin panel, customer dashboard, database, or backend order system in this launch build.
 
 ## Requirements
 
@@ -57,34 +57,10 @@ D:\saguns-laundry-qa.zip
 - Contact form opens WhatsApp with the entered message.
 - Pickup and delivery are stated as available up to 3 km from each branch.
 
-Customer login/dashboard routes are not advertised for launch because the launch flow is intentionally WhatsApp-only.
-
-## Local Admin / Demo Data
-
-The app keeps a local JSON data file at:
-
-```text
-data/db.json
-```
-
-For a fresh setup, set an admin password before first run:
-
-```powershell
-$env:ADMIN_PASSWORD="choose-a-strong-password"
-npm start
-```
-
-If `ADMIN_PASSWORD` is not set on first run, a random local admin password is generated and written to:
-
-```text
-data/admin-setup.txt
-```
-
-This file is local only and is not served by the app.
+Customer login, dashboard, admin, and `/php/*` API routes are disabled.
 
 ## Security Notes
 
-- `logs/` is not served publicly.
-- Do not deploy old QA logs or OTP logs.
-- Set `SESSION_SECRET` in production.
-- Set `ADMIN_PASSWORD` before first production run.
+- `logs/`, `data/`, admin views, and backend datastore files are not part of the launch build.
+- The app sends security headers including CSP, frame deny, `nosniff`, referrer policy, and permissions policy.
+- No customer passwords, OTPs, admin credentials, or order records are collected by this app.

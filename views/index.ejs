@@ -28,7 +28,7 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="nav-cta">
-      <a href="tel:+9779851302350" class="btn btn-ghost btn-sm">Call</a>
+      <a href="tel:+9779851302353" class="btn btn-ghost btn-sm">Call</a>
       <a href="<%= whatsappPickupUrl %>" class="btn btn-primary btn-sm">Book Pickup</a>
     </div>
     <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -44,7 +44,7 @@
   <a href="#branches">Branches</a>
   <a href="pricing.php">Pricing</a>
   <a href="#contact">Contact</a>
-  <a href="tel:+9779851302350">Call</a>
+  <a href="tel:+9779851302353">Call</a>
   <a href="<%= whatsappPickupUrl %>">Book Pickup</a>
 </div>
 
@@ -67,6 +67,10 @@
           <strong>Imadol</strong>
         </div>
         <div>
+          <span>Contact</span>
+          <strong><%= displayPhone %></strong>
+        </div>
+        <div>
           <span>Other Branches</span>
           <strong>Nakhu & Hattiban</strong>
         </div>
@@ -80,10 +84,10 @@
 
   <section class="sl-strip" id="branches" aria-label="Branches">
     <div class="container sl-strip__grid">
-      <div class="sl-branch-card sl-branch-card--main">
+      <a class="sl-branch-card sl-branch-card--main sl-branch-card--link" href="<%= imadolMapUrl %>" target="_blank" rel="noopener noreferrer" aria-label="Open Imadol main branch location on Google Maps">
         <span>Main Branch</span>
         <strong>Imadol, Lalitpur</strong>
-      </div>
+      </a>
       <a class="sl-branch-card sl-branch-card--link" href="https://www.google.com/maps/place/Sagun%E2%80%99s+Laundry+(Nakkhu+Branch)/@27.6612593,85.3053509,17z/data=!3m1!4b1!4m6!3m5!1s0x39eb190045cc58a9:0x97717bbdec431cc9!8m2!3d27.6612593!4d85.3053509!16s%2Fg%2F11m5vx6n9c?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" aria-label="Open Nakhu branch location on Google Maps">
         <span>Branch</span>
         <strong>Nakhu</strong>
@@ -96,10 +100,10 @@
         <span>Main Hours</span>
         <strong>8:15 AM - 8:00 PM</strong>
       </div>
-      <div class="sl-branch-card">
-        <span>Nakhu Hours</span>
-        <strong>8:00 AM - 7:00 PM</strong>
-      </div>
+      <a class="sl-branch-card sl-branch-card--link sl-branch-card--phone" href="tel:+9779851302353" aria-label="Call Sagun's Laundry main contact number">
+        <span>Contact Number</span>
+        <strong><%= displayPhone %></strong>
+      </a>
     </div>
   </section>
 
@@ -217,10 +221,10 @@
         <p class="sl-kicker">Visit or Message</p>
         <h2 id="contactHeading">Main branch in Imadol. Branches in Nakhu and Hattiban.</h2>
         <div class="sl-contact-list">
-          <p><strong>Main Branch:</strong> Imadol, Lalitpur</p>
+          <p><strong>Main Branch:</strong> <a href="<%= imadolMapUrl %>" target="_blank" rel="noopener noreferrer">Imadol, Lalitpur - open map</a></p>
           <p><strong>Other Branches:</strong> Nakhu, Hattiban</p>
           <p><strong>Main Branch Telephone:</strong> <a href="tel:015254350">015254350</a></p>
-          <p><strong>Mobile Contact:</strong> <a href="tel:+9779851302350">+977 9851302350</a></p>
+          <p><strong>Mobile Contact:</strong> <a href="tel:+9779851302353"><%= displayPhone %></a></p>
           <p><strong>Main Branch Hours:</strong> 8:15 AM - 8:00 PM, daily</p>
           <p><strong>Nakhu Branch Hours:</strong> 8:00 AM - 7:00 PM, daily</p>
         </div>
@@ -246,6 +250,7 @@
         <img src="assets/saguns-brand-logo-source.png" alt="Sagun's Laundry">
       </div>
       <p>Main branch in Imadol with additional branches in Nakhu and Hattiban.</p>
+      <p><a href="<%= imadolMapUrl %>" target="_blank" rel="noopener noreferrer">Open Imadol main branch on Google Maps</a></p>
     </div>
     <div>
       <strong>Quick Links</strong>
@@ -258,7 +263,7 @@
     <div>
       <strong>Booking</strong>
       <a href="<%= whatsappPickupUrl %>">Book Pickup</a>
-      <a href="tel:+9779851302350">Call Sagun's Laundry</a>
+      <a href="tel:+9779851302353">Call <%= displayPhone %></a>
     </div>
   </div>
   <div class="container sl-footer__bottom">

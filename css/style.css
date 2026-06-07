@@ -602,16 +602,6 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 }
 .auth-divider::before { left: 0; } .auth-divider::after { right: 0; }
 
-/* OTP Input */
-.otp-inputs { display: flex; gap: 12px; justify-content: center; margin: 24px 0; }
-.otp-input {
-  width: 52px; height: 58px; text-align: center;
-  font-size: 1.6rem; font-weight: 700; font-family: 'DM Sans', sans-serif;
-  border: 2px solid var(--gray-300); border-radius: var(--radius); outline: none;
-  transition: var(--transition);
-}
-.otp-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.12); }
-
 /* ── Dashboard ────────────────────────────────────────── */
 .dashboard-layout {
   display: grid; grid-template-columns: 260px 1fr; min-height: 100vh;
@@ -805,8 +795,6 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 @media (max-width: 480px) {
   .container { padding: 0 16px; }
   .stats-grid { grid-template-columns: 1fr; }
-  .otp-inputs { gap: 8px; }
-  .otp-input { width: 44px; height: 52px; font-size: 1.4rem; }
 }
 
 /* ── Loading Spinner ──────────────────────────────────── */
@@ -1104,9 +1092,6 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
 .req { color: var(--red); }
-.otp-header { margin-bottom: 24px; }
-.otp-emoji { font-size: 3rem; margin-bottom: 10px; }
-
 /* ── Service card fixes ───────────────────────────────────── */
 .service-card-info { flex: 1; min-width: 0; }
 .service-expand-icon {
@@ -1360,6 +1345,9 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   font-size: .72rem;
   font-weight: 800;
   text-transform: uppercase;
+}
+.sl-branch-card--phone strong::after {
+  content: "Call now";
 }
 .sl-branch-card:hover {
   transform: translateY(-2px);
