@@ -6,9 +6,8 @@ $Root = Split-Path -Parent $PSScriptRoot
 $Required = @(
   "assets",
   "css",
-  "data",
+  "docs",
   "js",
-  "lib",
   "views",
   "server.js",
   "package.json",
