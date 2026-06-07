@@ -289,7 +289,7 @@ h1,h2,h3,h4 { font-family: 'Playfair Display', serif; line-height: 1.25; }
   background:
     linear-gradient(90deg, rgba(24,9,8,0.92) 0%, rgba(24,9,8,0.78) 42%, rgba(24,9,8,0.42) 100%),
     linear-gradient(0deg, rgba(24,9,8,0.52), rgba(24,9,8,0.1)),
-    url("../assets/saguns-laundry-hero.png") center / cover no-repeat;
+    url("../assets/branch-storefront-hero.jpg") center / cover no-repeat;
   opacity: 1;
 }
 .hero-bg::after {
@@ -779,7 +779,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   .hero-bg {
     background:
       linear-gradient(180deg, rgba(24,9,8,0.92) 0%, rgba(24,9,8,0.74) 100%),
-      url("../assets/saguns-laundry-hero.png") center / cover no-repeat;
+      url("../assets/branch-storefront-hero.jpg") center / cover no-repeat;
   }
   .facility-grid {
     grid-template-columns: 1fr;
@@ -1239,7 +1239,7 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
     radial-gradient(circle at 82% 28%, rgba(201,153,43,.18), transparent 24%),
     linear-gradient(90deg, rgba(20,12,10,.92) 0%, rgba(20,12,10,.72) 38%, rgba(20,12,10,.20) 100%),
     linear-gradient(0deg, rgba(20,12,10,.62), rgba(20,12,10,.06)),
-    url("../assets/saguns-laundry-hero.png") center / cover no-repeat;
+    url("../assets/branch-storefront-hero.jpg") center / cover no-repeat;
   transform: scale(1.02);
 }
 .sl-hero__inner {
@@ -1585,7 +1585,8 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   grid-row: span 2;
   min-height: 560px;
 }
-.sl-facility-grid figure:nth-child(4) {
+.sl-facility-grid figure:nth-child(4),
+.sl-facility-grid figure:nth-child(5) {
   grid-column: span 2;
 }
 .sl-facility-grid img {
@@ -1752,7 +1753,12 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   }
   .sl-facility-grid figure:first-child {
     min-height: 300px;
+    grid-column: auto;
     grid-row: auto;
+  }
+  .sl-facility-grid figure:nth-child(4),
+  .sl-facility-grid figure:nth-child(5) {
+    grid-column: auto;
   }
   .sl-facility-grid figure {
     min-height: 250px;
