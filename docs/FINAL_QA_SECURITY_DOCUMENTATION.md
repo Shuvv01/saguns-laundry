@@ -21,8 +21,8 @@ Included:
 - Pricing page: `/pricing.php`
 - WhatsApp signup/contact page: `/register.php`
 - Static assets under `/assets`, `/css`, and `/js`
-- WhatsApp booking links using `9779851302353`
-- Phone links using `+977 9851302353`
+- WhatsApp booking links using `9779851332353`
+- Phone links using `+977 9851332353`
 - Imadol Main Branch Google Maps link
 - Security headers for public pages
 
@@ -42,13 +42,13 @@ Disabled or removed:
 Mobile and WhatsApp number:
 
 ```text
-+977 9851302353
++977 9851332353
 ```
 
 WhatsApp number format used in links:
 
 ```text
-9779851302353
+9779851332353
 ```
 
 Imadol Main Branch map:
@@ -168,8 +168,8 @@ Automated content checks:
 | Check | Result |
 |---|---:|
 | Correct phone number visible on homepage | Passed |
-| Correct `tel:+9779851302353` links present | Passed |
-| Correct `https://wa.me/9779851302353` links present | Passed |
+| Correct `tel:+9779851332353` links present | Passed |
+| Correct `https://wa.me/9779851332353` links present | Passed |
 | Old `9851302350` number absent from homepage | Passed |
 | Correct phone number visible on pricing page | Passed |
 | Old `9851302350` number absent from pricing page | Passed |
@@ -208,7 +208,7 @@ Homepage:
 
 - Page title rendered correctly.
 - Hero content rendered correctly.
-- Correct phone number `+977 9851302353` visible.
+- Correct phone number `+977 9851332353` visible.
 - Old phone number `9851302350` not visible.
 - WhatsApp booking links present.
 - Imadol map links present.
@@ -261,7 +261,7 @@ Manual browser state captured:
 Booking:
 
 1. Customer clicks `Book Pickup`.
-2. Browser opens WhatsApp link to `9779851302353`.
+2. Browser opens WhatsApp link to `9779851332353`.
 3. WhatsApp message is prefilled with pickup request.
 4. Sagun's Laundry confirms pickup/delivery manually on WhatsApp.
 
@@ -286,7 +286,7 @@ Location:
 Calling:
 
 1. Customer clicks call link.
-2. Device dialer opens `+9779851302353`.
+2. Device dialer opens `+9779851332353`.
 
 ## 10. Files Changed During Finalization
 
@@ -329,8 +329,8 @@ Added:
 
 Before public hosting:
 
-- Confirm final mobile number is `+977 9851302353`.
-- Confirm WhatsApp business/device is active for `9779851302353`.
+- Confirm final mobile number is `+977 9851332353`.
+- Confirm WhatsApp business/device is active for `9779851332353`.
 - Confirm Imadol Google Maps link opens the correct branch.
 - Confirm branch hours are correct.
 - Confirm pricing values are final.
